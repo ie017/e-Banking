@@ -1,0 +1,31 @@
+<section class="mt-5">
+  <div class="container mt-5" *ngIf="listCustomer">
+    {{searchFormGroup.value.keyword | json}}
+    <form class="input-group" [formGroup]="searchFormGroup" (ngSubmit)="doSearchCustomers()" >
+      <label class="input-group-text">Keyword :</label>
+      <input type="text" class="form-control" formControlName="keyword">
+      <button class="btn btn-info">
+        <i class="bi bi-search"></i>
+      </button>
+    </form>
+    <div class="card">
+      <div class="card-header"> List of customers</div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Id</th><th>Name</th><th>Email</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let customer of listCustomer | async">
+            <td>{{customer.id}}</td>
+            <td>{{customer.name}}</td>
+            <td>{{customer.email}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>

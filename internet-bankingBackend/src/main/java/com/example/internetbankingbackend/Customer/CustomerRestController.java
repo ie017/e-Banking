@@ -10,18 +10,19 @@ import java.util.List;
 @RestController
 @AllArgsConstructor /* He use for injection dependency like @Autowired */
 @Slf4j
+@CrossOrigin("*")
 public class CustomerRestController {
     private BankService bankService;
-    @GetMapping("/customers") /* Après la consultation de ce lien nous trouvons que il y'a beaucoup des données
+    /*@GetMapping("/customers") /* Après la consultation de ce lien nous trouvons que il y'a beaucoup des données
     qui affichées en format JSON au cause de la variable bankAccounts qui definée dans l'entitie customer
     Pour evité ce probleme la on peut annuler la serialisation de ce variable dans notre format JSON apres l'execution de lien /customers
     et pour cela on peut ajouter la notation @JsonProperty(access = JsonProperty.Access.READ_ONLY) dans la classe CustomerEntity */
-    public List<CustomerDto> customers(){
+    /*public List<CustomerDto> customers(){
         return bankService.listCustomersDto();
-    }
-    @GetMapping(path = "/customer/{id}")
-    public CustomerDto getcustomer(@PathVariable(name = "id") Long customerId){
-        return bankService.getCustomer(customerId);
+    }*/
+    @GetMapping(path = "/customers")
+    public List<CustomerDto> getcustomer(@RequestParam(name = "keyword", defaultValue = "") String keyword){
+        return bankService.getCustomer(keyword);
     }
     @PostMapping(path = "/savecustomer")
     public CustomerEntity savecustomer(@RequestBody CustomerDto customerDto){

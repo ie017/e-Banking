@@ -57,13 +57,15 @@ public class BankServiceImp implements BankService {
         SavingAccountEntity savedBankAccount = bankAccountRepository.save(bankAccount);
         return savedBankAccount;
     }
-    @Override
-    public CustomerDto getCustomer(Long customerId) throws CustomerNotFoundException{
-        CustomerEntity customerEntity = customerRepository.findById(customerId).
-                orElseThrow(()-> new CustomerNotFoundException("Customer not found"));
-        return bankAccountMapper.fromCustomer(customerEntity);
-    }
 
+    @Override
+    public List<CustomerDto> getCustomer(String keyword) {
+        List<CustomerDto> listOfCustomersDto = new ArrayList<>();
+        customerRepository.findByNameContains(keyword).forEach(customerEntity -> {
+            listOfCustomersDto.add(bankAccountMapper.fromCustomer(customerEntity));
+        });
+        return listOfCustomersDto;
+    }
     @Override
     public List<CustomerEntity> listCustomers() {
         return customerRepository.findAll();
