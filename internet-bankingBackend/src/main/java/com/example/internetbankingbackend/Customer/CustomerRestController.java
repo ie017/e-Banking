@@ -13,17 +13,19 @@ import java.util.List;
 @CrossOrigin("*")
 public class CustomerRestController {
     private BankService bankService;
-    /*@GetMapping("/customers") /* Après la consultation de ce lien nous trouvons que il y'a beaucoup des données
+    @GetMapping("/customer/{id}")
+    public CustomerDto customers(@PathVariable(name = "id") long id){
+        return bankService.getCustomer(id);
+    }
+    @GetMapping(path = "/customers")
+    public List<CustomerDto> getcustomer(@RequestParam(name = "keyword", defaultValue = "") String keyword){
+        return bankService.getCustomers(keyword);
+    }
+    /*si Keyword est vide alors retourner la liste de toutes les produits */
+    /* Après la consultation de ce lien nous trouvons que il y'a beaucoup des données
     qui affichées en format JSON au cause de la variable bankAccounts qui definée dans l'entitie customer
     Pour evité ce probleme la on peut annuler la serialisation de ce variable dans notre format JSON apres l'execution de lien /customers
     et pour cela on peut ajouter la notation @JsonProperty(access = JsonProperty.Access.READ_ONLY) dans la classe CustomerEntity */
-    /*public List<CustomerDto> customers(){
-        return bankService.listCustomersDto();
-    }*/
-    @GetMapping(path = "/customers")
-    public List<CustomerDto> getcustomer(@RequestParam(name = "keyword", defaultValue = "") String keyword){
-        return bankService.getCustomer(keyword);
-    }
     @PostMapping(path = "/savecustomer")
     public CustomerEntity savecustomer(@RequestBody CustomerDto customerDto){
         return bankService.saveCustomer(customerDto);

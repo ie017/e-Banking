@@ -1,0 +1,18 @@
+<div class="container mt-3 col-md-6 offset-md-3">
+  <form [formGroup]="newCustomerFormGroup">
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input class="form-control" type="text" formControlName="name">
+      <small *ngIf="newCustomerFormGroup.controls['name'].errors && newCustomerFormGroup.controls
+       ['name'].touched" class="text-danger">{{customerService.geterrorMessage('name',newCustomerFormGroup.controls['name'].errors)}}</small>
+      <!-- Affichage des messages des erreurs de le champs name après le saisie de queleque chose-->
+    </div>
+    <div class="mb-3">
+      <label class="form-label">email</label>
+      <input class="form-control" type="text" formControlName="email">
+      <small *ngIf="newCustomerFormGroup.controls['email'].errors && newCustomerFormGroup.controls
+       ['email'].touched" class="text-danger">{{customerService.geterrorMessage('email',newCustomerFormGroup.controls['email'].errors)}}</small>
+    </div>
+    <button [disabled]="!newCustomerFormGroup.valid" class="btn btn-outline-info" type="submit" (click)="addNewCustomer()">Save</button>
+  </form>
+</div>

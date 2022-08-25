@@ -42,7 +42,7 @@ public abstract class BankAccountEntity {
     private AccountStatus status;
     @ManyToOne /* C'est a dire plusieurs compte pour un client*/
     private CustomerEntity customer;
-    @OneToMany(mappedBy = "bankAccountEntity", fetch = FetchType.LAZY)
+    @OneToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE}, mappedBy = "bankAccountEntity", fetch = FetchType.LAZY)
     /* LAZY est par defaut signifie que on ne va charger les données
     que on cas de besoin "we will only load the data we need" null will put in all cases of accountOperationEntityList*/
 

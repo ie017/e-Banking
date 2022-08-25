@@ -17,7 +17,7 @@ public class CustomerEntity {
     private long id;
     private String name;
     private String email;
-    @OneToMany(mappedBy = "customer") /* mappedBy pour dire a JPA de créer la meme
+    @OneToMany(cascade= {CascadeType.PERSIST, CascadeType.REMOVE},mappedBy = "customer") /* mappedBy pour dire a JPA de créer la meme
      tableau que contient custemor et bankacount, si mappedBy n'est pas declarée
       JPA ne génerer pas une seules table*/
     /* Pour dire one customer can have many bankAccount*/

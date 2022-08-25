@@ -59,13 +59,21 @@ public class BankServiceImp implements BankService {
     }
 
     @Override
-    public List<CustomerDto> getCustomer(String keyword) {
+    public List<CustomerDto> getCustomers(String keyword) {
         List<CustomerDto> listOfCustomersDto = new ArrayList<>();
         customerRepository.findByNameContains(keyword).forEach(customerEntity -> {
             listOfCustomersDto.add(bankAccountMapper.fromCustomer(customerEntity));
         });
         return listOfCustomersDto;
     }
+
+    @Override
+    public CustomerDto getCustomer(Long id) {
+        CustomerDto customerDto = new CustomerDto();
+        customerDto = bankAccountMapper.fromCustomer(customerRepository.findById(id).orElse(null));
+        return customerDto;
+    }
+
     @Override
     public List<CustomerEntity> listCustomers() {
         return customerRepository.findAll();

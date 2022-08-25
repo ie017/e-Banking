@@ -4,6 +4,7 @@ import {HttpClient} from "@angular/common/http";
 import {CustomerModule} from "./customer.module";
 import {catchError, Observable, throwError} from "rxjs";
 import {FormBuilder, FormGroup} from "@angular/forms";
+import {Router} from "@angular/router";
 
 @Component({
   selector: 'app-customer',
@@ -14,7 +15,7 @@ export class CustomerComponent implements OnInit {
   listCustomer! : Observable<Array<CustomerModule>>;
   messageError! : String;
   searchFormGroup! : FormGroup;
-  constructor(private serviceCustomer : CustomerService, private fb : FormBuilder) {}
+  constructor(private serviceCustomer : CustomerService, private fb : FormBuilder, private router : Router) {}
 
   ngOnInit(): void {
     this.searchFormGroup = this.fb.group({
@@ -35,5 +36,19 @@ export class CustomerComponent implements OnInit {
       this.messageError = err;
       return throwError(err);
     }));
+  }
+
+  doRemoveCustomer(id: number) {
+    this.serviceCustomer.removeCustomer(id).subscribe({
+      next : (data)=>{
+        alert("Your customer has deleted")
+      }, error : err => {
+        console.log(err);
+      }
+    });
+  }
+
+  doUpdateCustomer(customer : CustomerModule) {
+    this.router.navigateByUrl("/editCustomer/"+customer.id);
   }
 }

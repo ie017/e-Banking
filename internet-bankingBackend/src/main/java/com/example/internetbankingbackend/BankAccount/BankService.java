@@ -16,7 +16,8 @@ public interface BankService {
     CustomerEntity saveCustomer(CustomerDto customer);
     CurrentAccountEntity saveCurrentBankAccount(double initialBalance, double overDraft, Long customerId) throws CustomerNotFoundException;
     SavingAccountEntity saveSavingBankAccount(double initialBalance, double interestRate, Long customerId) throws CustomerNotFoundException;
-    List<CustomerDto> getCustomer(String keyword);
+    List<CustomerDto> getCustomers(String keyword);
+    CustomerDto getCustomer(Long id);
     List<CustomerEntity> listCustomers();
     List<CustomerDto> listCustomersDto();
     BankAccountDto getBankAccount(String accountId) throws BankAccountException;
