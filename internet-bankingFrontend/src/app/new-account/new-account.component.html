@@ -1,0 +1,66 @@
+<div class="container mt-3 col-md-6 offset-md-3">
+  <h6 class="text-success">Select the customer : </h6>
+  <form class="input-group" [formGroup]="searchFormGroup" (ngSubmit)="doSearchCustomersById()">
+    <label class="input-group-text">specify the id of customer :</label>
+    <input type="text" class="form-control" formControlName="customerId">
+    <button class="btn btn-info">
+      <i class="bi bi-search"></i>
+    </button>
+  </form>
+    <div class="row">
+      <div class="col-xs-6">
+        <form class="row g-3 mt-4 border border-primary" *ngIf="customer">
+          <div class="col-auto">
+            <label for="inputPassword2" class="text-success">Name</label>
+            <input type="text" class="form-control-plaintext" id="inputPassword2" placeholder="{{customer.name}}">
+          </div>
+          <div class="col-auto">
+            <label for="staticEmail2" class="text-success">Email</label>
+            <input type="text" readonly class="form-control-plaintext" id="staticEmail2" value="{{customer.email}}">
+          </div>
+        </form>
+      </div>
+      <div class="col-xs-6">
+        <div class="container mt-3" *ngIf="accounts">
+          <div class="card">
+            <div class="card-header"> List of customers</div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Balance</th>
+                  <th>Creation date</th>
+                  <th>Status</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let account of accounts | async">
+                  <td>{{account.id}}</td>
+                  <td>{{account.balance}}</td>
+                  <td>{{account.createdAt}}</td>
+                  <td>{{account.status}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--<form [formGroup]="newAccountFormGroup">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input class="form-control" type="text" formControlName="name">
+          <small *ngIf="newCustomerFormGroup.controls['name'].errors && newCustomerFormGroup.controls
+           ['name'].touched" class="text-danger">{{accountService.geterrorMessage('name',newCustomerFormGroup.controls['name'].errors)}}</small>
+        </div>
+        <div class="mb-3">
+          <label class="form-label">email</label>
+          <input class="form-control" type="text" formControlName="email">
+          <small *ngIf="newCustomerFormGroup.controls['email'].errors && newCustomerFormGroup.controls
+           ['email'].touched" class="text-danger">{{customerService.geterrorMessage('email',newCustomerFormGroup.controls['email'].errors)}}</small>
+        </div>
+        <button [disabled]="!newCustomerFormGroup.valid" class="btn btn-outline-info" type="submit" (click)="addNewCustomer()">Save</button>
+      </form>-->
+    </div>
+  </div>

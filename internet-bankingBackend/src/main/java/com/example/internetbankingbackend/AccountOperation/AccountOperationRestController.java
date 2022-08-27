@@ -24,4 +24,5 @@ public class AccountOperationRestController {
           @RequestParam(name = "size", defaultValue = "3") int size){
         return bankService.getAccountOperationInPage(bankAccountId,page,size);
     }
+
 }

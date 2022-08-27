@@ -28,6 +28,16 @@ export class CustomerComponent implements OnInit {
       this.messageError = err;
       return throwError(err);
     }));
+    this.listCustomer.subscribe({
+      next : (data)=>{
+        data.forEach(customElements=>{
+          this.serviceCustomer.sendIdToAccountService(customElements.id);
+        });
+      },
+      error : err => {
+        console.log(err);
+      }
+    });
   }
 
   doSearchCustomers() {
@@ -36,12 +46,23 @@ export class CustomerComponent implements OnInit {
       this.messageError = err;
       return throwError(err);
     }));
+    this.listCustomer.subscribe({
+      next : (data)=>{
+        data.forEach(customElements=>{
+          this.serviceCustomer.sendIdToAccountService(customElements.id);
+        });
+      },
+      error : err => {
+        console.log(err);
+      }
+    });
   }
 
   doRemoveCustomer(id: number) {
     this.serviceCustomer.removeCustomer(id).subscribe({
       next : (data)=>{
-        alert("Your customer has deleted")
+        alert("Your customer has deleted");
+        this.doSearchCustomers();
       }, error : err => {
         console.log(err);
       }
@@ -50,5 +71,8 @@ export class CustomerComponent implements OnInit {
 
   doUpdateCustomer(customer : CustomerModule) {
     this.router.navigateByUrl("/editCustomer/"+customer.id);
+  }
+  getIdOfCustomer(id : number){
+    this.serviceCustomer.putIdInAccountService(id);
   }
 }

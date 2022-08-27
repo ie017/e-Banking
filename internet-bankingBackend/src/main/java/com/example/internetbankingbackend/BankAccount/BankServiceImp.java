@@ -209,4 +209,17 @@ public class BankServiceImp implements BankService {
         historyDto.setTotalPages(listOfAccountOperation.getTotalPages());
         return historyDto;
     }
+
+    @Override
+    public List<BankAccountDto> getAllbankaccountsOfUser(Long id) {
+        List<BankAccountDto> bankAccountDtos = new ArrayList<>();
+        customerRepository.findById(id).get().getBankAccounts().forEach(bankAccountEntity -> {
+            if (bankAccountEntity instanceof CurrentAccountEntity){
+                bankAccountDtos.add(bankAccountMapper.fromCurrentAccountEntity((CurrentAccountEntity) bankAccountEntity));
+            } else {
+                bankAccountDtos.add(bankAccountMapper.fromSavingAccountEntity((SavingAccountEntity) bankAccountEntity));
+            }
+        });
+        return bankAccountDtos;
+    }
 }

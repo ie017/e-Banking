@@ -17,8 +17,4 @@ public class AccountOperationDto {
     private Date operationDate;
     private double amount;
     private OperationType type;
-    private int currentPage;
-    private int sizePage;
-    private int totalPages;
-
 }

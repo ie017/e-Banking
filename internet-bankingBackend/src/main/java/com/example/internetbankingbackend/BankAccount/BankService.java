@@ -31,4 +31,5 @@ public interface BankService {
     void deleteBankAccount(String bankAccountd);
     List<AccountOperationDto> getAllAccountOperation(String bankAccountId);
     HistoryDto getAccountOperationInPage(String bankAccountId, int page, int size);
+    List<BankAccountDto> getAllbankaccountsOfUser(Long id);
 }

@@ -18,11 +18,18 @@ public class BankAccountRestController {
     public List<BankAccountDto> getbankaccounts(){
         return bankService.getAllbankaccounts();
     }
+    @GetMapping(path = "/getbankAccountsOfUser/{id}")
+    public List<BankAccountDto> getbankaccountsOfUser(@PathVariable(name = "id") Long id){
+        return bankService.getAllbankaccountsOfUser(id);
+    }
     @GetMapping(path = "/getbankaccount/{id}")
     public BankAccountDto getbankaccounts(@PathVariable(name = "id") String bankAccountId){
         return bankService.getBankAccount(bankAccountId);
     }
-
+    @DeleteMapping(path = "/deletebankaccount/{id}")
+    public void deleteBankAccount(@PathVariable(name = "id") String bankAccountId){
+        bankService.deleteBankAccount(bankAccountId);
+    }
     @PutMapping(path = "/debit/{id}{amount}")
     public void debit(@PathVariable(name = "id") String bankAccountId, @PathVariable(name = "amount") double amount){
         try {

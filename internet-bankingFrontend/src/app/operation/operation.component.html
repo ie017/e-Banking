@@ -1,0 +1,28 @@
+
+<section class="mt-5">
+  <div class="container mt-5" *ngIf="operationsList">
+    <div class="card">
+      <div class="card-header"> List of Operations</div>
+      <div class="card-body">
+        <table class="table">
+          <thead>
+          <tr>
+            <th>Id</th>
+            <th>Create date</th>
+            <th>Amount</th>
+            <th>Type</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr *ngFor="let operation of operationsList | async">
+            <td>{{operation.id}}</td>
+            <td>{{operation.operationDate}}</td>
+            <td>{{operation.amount}}</td>
+            <td>{{operation.type}}</td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
