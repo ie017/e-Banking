@@ -2,9 +2,7 @@ package com.example.internetbankingbackend;
 
 import com.example.internetbankingbackend.AccountOperation.AccountOperationEntity;
 import com.example.internetbankingbackend.AccountOperation.AccountOperationRepository;
-import com.example.internetbankingbackend.BankAccount.BankAccountEntity;
-import com.example.internetbankingbackend.BankAccount.BankAccountRepository;
-import com.example.internetbankingbackend.BankAccount.BankService;
+import com.example.internetbankingbackend.BankAccount.*;
 import com.example.internetbankingbackend.CurrentAccount.CurrentAccountEntity;
 import com.example.internetbankingbackend.Customer.CustomerDto;
 import com.example.internetbankingbackend.Customer.CustomerEntity;
@@ -84,8 +82,10 @@ public class InternetBankingBackendApplication {
             }
             for (BankAccountEntity bankAccount: bankService.listBankAccount()){
                 for(int i = 0; i < 6; i++){
-                    bankService.debit(bankAccount.getId(),Math.random()*700,"");
-                    bankService.credit(bankAccount.getId(),Math.random()*900,"");
+                    Debit debit = new Debit(bankAccount.getId(), Math.random()*700 , "debit");
+                    Credit credit = new Credit(bankAccount.getId(), Math.random()*900 , "credit");
+                    bankService.debit(debit);
+                    bankService.credit(credit);
                 }
             }
         };

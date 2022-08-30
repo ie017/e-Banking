@@ -21,9 +21,9 @@ public interface BankService {
     List<CustomerEntity> listCustomers();
     List<CustomerDto> listCustomersDto();
     BankAccountDto getBankAccount(String accountId) throws BankAccountException;
-    void debit(String accountId, double amount, String description) throws BalanceNotSufficientException;
-    void credit(String accountId, double amount, String description) throws BalanceNotSufficientException;
-    void transfer(String accountIdSource, String accountIdDestination, Double amount) throws BalanceNotSufficientException;
+    void debit(Debit debit) throws BalanceNotSufficientException;
+    void credit(Credit credit) throws BalanceNotSufficientException;
+    void transfer(Transfer transfer) throws BalanceNotSufficientException;
     List<BankAccountEntity> listBankAccount();
     CustomerDto updateCustomer(Long id, CustomerDto customerDto) throws CustomerNotFoundException;
     void deleteCustomer(Long customerId);

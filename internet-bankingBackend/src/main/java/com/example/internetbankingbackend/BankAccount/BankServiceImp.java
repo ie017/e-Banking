@@ -118,39 +118,41 @@ public class BankServiceImp implements BankService {
     }
 
     @Override
-    public void debit(String accountId, double amount, String description) throws BankAccountException, BalanceNotSufficientException {
-        BankAccountEntity bankAccount = bankAccountRepository.findById(accountId).orElseThrow(()->new BankAccountException("Bank Account not found"));
-        if (bankAccount.getBalance() < amount){
+    public void debit(Debit debit) throws BankAccountException, BalanceNotSufficientException {
+        BankAccountEntity bankAccount = bankAccountRepository.findById(debit.getId()).orElseThrow(()->new BankAccountException("Bank Account not found"));
+        if (bankAccount.getBalance() < debit.getAmount()){
             throw new BalanceNotSufficientException("Balance Not Sufficient");
         }
         AccountOperationEntity accountOperationEntity = new AccountOperationEntity();
         accountOperationEntity.setOperationDate(new Date());
         accountOperationEntity.setType(OperationType.DEBIT);
         accountOperationEntity.setBankAccountEntity(bankAccount);
-        accountOperationEntity.setAmount(amount);
+        accountOperationEntity.setAmount(debit.getAmount());
         accountOperationRepository.save(accountOperationEntity);
-        bankAccount.setBalance(bankAccount.getBalance() - amount);
+        bankAccount.setBalance(bankAccount.getBalance() - debit.getAmount());
         bankAccountRepository.save(bankAccount);
 
     }
 
     @Override
-    public void credit(String accountId, double amount, String description) throws BankAccountException {
-        BankAccountEntity bankAccount = bankAccountRepository.findById(accountId).orElseThrow(()->new BankAccountException("Bank Account not found"));
+    public void credit(Credit credit) throws BankAccountException {
+        BankAccountEntity bankAccount = bankAccountRepository.findById(credit.getId()).orElseThrow(()->new BankAccountException("Bank Account not found"));
         AccountOperationEntity accountOperationEntity = new AccountOperationEntity();
         accountOperationEntity.setOperationDate(new Date());
         accountOperationEntity.setType(OperationType.CREDIT);
         accountOperationEntity.setBankAccountEntity(bankAccount);
-        accountOperationEntity.setAmount(amount);
+        accountOperationEntity.setAmount(credit.getAmount());
         accountOperationRepository.save(accountOperationEntity);
-        bankAccount.setBalance(bankAccount.getBalance() + amount);
+        bankAccount.setBalance(bankAccount.getBalance() + credit.getAmount());
         bankAccountRepository.save(bankAccount);
     }
 
     @Override
-    public void transfer(String accountIdSource, String accountIdDestination, Double amount) throws BankAccountException, BalanceNotSufficientException {
-        debit(accountIdSource,amount,"Source");
-        credit(accountIdDestination, amount, "Destination");
+    public void transfer(Transfer transfer) throws BankAccountException, BalanceNotSufficientException {
+        Debit debit = new Debit(transfer.getId(), transfer.getAmount(), "debit");
+        debit(debit);
+        Credit credit = new Credit(transfer.getDestinationId(), transfer.getAmount(), "credit");
+        credit(credit);
     }
 
     @Override

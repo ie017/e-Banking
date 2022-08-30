@@ -13,7 +13,7 @@ const routes: Routes = [
   {path : "addCustomer", component : NewCustomerComponent},
   {path : "editCustomer/:id", component : EditCustomerComponent},
   {path : "operations/:id", component : OperationComponent},
-  {path : "addAccount", component : NewAccountComponent}
+  {path : "addAccount", component : NewAccountComponent},
 ]; /* Dans les routes on trouve toutes les routes qui on a*/
 
 

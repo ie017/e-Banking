@@ -1,6 +1,8 @@
 package com.example.internetbankingbackend.BankAccount;
 
+import com.example.internetbankingbackend.CurrentAccount.CurrentAccountDto;
 import com.example.internetbankingbackend.Exceptions.BalanceNotSufficientException;
+import com.example.internetbankingbackend.SavingAccount.SavingAccountDto;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
@@ -30,16 +32,28 @@ public class BankAccountRestController {
     public void deleteBankAccount(@PathVariable(name = "id") String bankAccountId){
         bankService.deleteBankAccount(bankAccountId);
     }
-    @PutMapping(path = "/debit/{id}{amount}")
-    public void debit(@PathVariable(name = "id") String bankAccountId, @PathVariable(name = "amount") double amount){
+    @PostMapping(path = "/debit")
+    public void debit(@RequestBody Debit debit){
         try {
-            bankService.debit(bankAccountId, amount, "Put it");
+            bankService.debit(debit);
         } catch (BalanceNotSufficientException e) {
             e.printStackTrace();
         }
     }
-    @PutMapping(path = "/credit/{id}{amount}")
-    public void credit(@PathVariable(name = "id") String bankAccountId, @PathVariable(name = "amount") double amount){
-        bankService.credit(bankAccountId, amount, "Put it");
+    @PostMapping(path = "/credit")
+    public void credit(@RequestBody Credit credit){
+        bankService.credit(credit);
+    }
+    @PostMapping(path = "/transfer")
+    public void transfer(@RequestBody Transfer transfer) throws BalanceNotSufficientException {
+        bankService.transfer(transfer);
+    }
+    @PostMapping(path = "/savesavingaccount/")
+    public void saveSavingAccount(@RequestBody SavingAccountDto savingAccountDto){
+        bankService.saveSavingBankAccount(savingAccountDto.getBalance(), savingAccountDto.getInterestRate(),savingAccountDto.getCustomerDto().getId());
+    }
+    @PostMapping(path = "/savecurrentaccount/")
+    public void saveCurrentAccount(@RequestBody CurrentAccountDto currentAccountDto){
+        bankService.saveCurrentBankAccount(currentAccountDto.getBalance(), currentAccountDto.getOverDraft(), currentAccountDto.getCustomerDto().getId());
     }
 }

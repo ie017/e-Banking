@@ -7,7 +7,7 @@ import { CustomerComponent } from './customer/customer.component';
 import {HttpClientModule} from "@angular/common/http";
 import { AppRoutingModule } from './app-routing.module';
 import { AccountComponent } from './account/account.component';
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import { NewCustomerComponent } from './new-customer/new-customer.component';
 import { EditCustomerComponent } from './edit-customer/edit-customer.component';
 import { OperationComponent } from './operation/operation.component';
@@ -24,13 +24,14 @@ import { NewAccountComponent } from './new-account/new-account.component';
     OperationComponent,
     NewAccountComponent,
   ],
-  imports: [
-    BrowserModule,
-    HttpClientModule,
-    AppRoutingModule,
-    ReactiveFormsModule,
+    imports: [
+        BrowserModule,
+        HttpClientModule,
+        AppRoutingModule,
+        ReactiveFormsModule,
+        FormsModule,
 
-  ],
+    ],
   providers: [],
   bootstrap: [AppComponent]
 })

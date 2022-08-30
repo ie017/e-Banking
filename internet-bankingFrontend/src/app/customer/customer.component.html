@@ -19,7 +19,6 @@
             <th>Email</th>
             <th>Delete</th>
             <th>Edit</th>
-            <th>Accounts</th>
           </tr>
           </thead>
           <tbody>
@@ -36,13 +35,6 @@
               <button class="btn btn-primary" (click)="doUpdateCustomer(customer)">
                 <i class="bi bi-gear"></i>
               </button>
-            </td>
-            <td>
-              <button type="button" class="btn btn-info" data-bs-toggle="modal" data-bs-target="#exampleModal"
-              (click)="getIdOfCustomer(customer.id)">
-                <i class="bi bi-credit-card-2-front"></i>
-              </button>
-              <app-account></app-account>
             </td>
           </tr>
           </tbody>

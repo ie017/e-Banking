@@ -4,6 +4,7 @@ import {Observable, of} from "rxjs";
 import {CustomerModule} from "./customer.module";
 import {ValidationErrors} from "@angular/forms";
 import {AccountService} from "../account/account.service";
+import {AccountModule} from "../account/account.module";
 
 @Injectable({
   providedIn: 'root'
@@ -43,14 +44,17 @@ export class CustomerService {
     return this.http.put<CustomerModule>("http://localhost:8080/updatecustomer/"+customer.id, customer);
   }
 
-  sendIdToAccountService(id : number) {
-    this.accountService.CustomerId = id;
-  }
-  putIdInAccountService(id : number){
-    this.accountService.setId(id);
-  }
-
   searchAboutCustomerById(id: number) : Observable<CustomerModule>{
     return this.http.get<CustomerModule>("http://localhost:8080/customer/"+id);
+  }
+
+  saveSavingaccount(customer : CustomerModule, balance : number, interestRate : number) : Observable<AccountModule>{
+    let data = {interestRate : interestRate, balance : balance, customerDto : customer}
+    return this.http.post<AccountModule>("http://localhost:8080/savesavingaccount/", data);
+  }
+
+  saveCurrentaccount(customer : CustomerModule, balance : number, overDraft: number) : Observable<AccountModule> {
+    let data = {overDraft : overDraft, balance : balance, customerDto : customer}
+    return this.http.post<AccountModule>("http://localhost:8080/savecurrentaccount/", data);
   }
 }

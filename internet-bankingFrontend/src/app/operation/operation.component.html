@@ -1,27 +1,73 @@
-
 <section class="mt-5">
-  <div class="container mt-5" *ngIf="operationsList">
-    <div class="card">
-      <div class="card-header"> List of Operations</div>
-      <div class="card-body">
-        <table class="table">
-          <thead>
-          <tr>
-            <th>Id</th>
-            <th>Create date</th>
-            <th>Amount</th>
-            <th>Type</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr *ngFor="let operation of operationsList | async">
-            <td>{{operation.id}}</td>
-            <td>{{operation.operationDate}}</td>
-            <td>{{operation.amount}}</td>
-            <td>{{operation.type}}</td>
-          </tr>
-          </tbody>
-        </table>
+  <div class="mb-3 d-flex align-items-center justify-content-center">
+    <label>Account id : {{accountId}}</label>
+  </div>
+  <div class="container mt-2">
+    <div class="row">
+      <div class="col col-md-6">
+        <div class="container mt-5" *ngIf="operationsList">
+          <div class="card">
+            <div class="card-header"> List of Operations</div>
+            <div class="card-body">
+              <table class="table">
+                <thead>
+                <tr>
+                  <th>Id</th>
+                  <th>Create date</th>
+                  <th>Amount</th>
+                  <th>Type</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let operation of operationsList | async">
+                  <td>{{operation.id}}</td>
+                  <td>{{operation.operationDate | date : "YYYY-MM-dd  hh:mm:ss"}}</td>
+                  <td>{{operation.amount}}</td>
+                  <td>{{operation.type}}</td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-md-6">
+        <div class="container mt-5" *ngIf="operationsList">
+          <div class="card">
+            <div class="card-header"> Add Operation</div>
+            <div class="card-body">
+              <form [formGroup]="operationFormGroup" (ngSubmit)="doOperation()" method="post">
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="operationType" value="debit">
+                  <label class="form-check-label" >Debit</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="operationType" value="credit">
+                  <label class="form-check-label" >credit</label>
+                </div>
+                <div class="form-check form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="operationType" value="transfer">
+                  <label class="form-check-label" >Transfer</label>
+                </div>
+                <div class="mb-3" *ngIf="operationFormGroup.value.operationType == 'transfer'">
+                  <label class="form-label">Destination :</label>
+                  <input type="text" formControlName="destination" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Amount :</label>
+                  <input type="text" formControlName="amount" class="form-control">
+                </div>
+                <div class="mb-3">
+                  <label class="form-label">Description :</label>
+                  <input type="text" formControlName="description" class="form-control">
+                </div>
+                <div class="d-grid mt-2">
+                  <button class="btn btn-primary" (click)="doOperation()">Save</button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
