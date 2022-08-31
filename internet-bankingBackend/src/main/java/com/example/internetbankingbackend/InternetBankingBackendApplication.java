@@ -10,10 +10,15 @@ import com.example.internetbankingbackend.Customer.CustomerRepository;
 import com.example.internetbankingbackend.Enums.AccountStatus;
 import com.example.internetbankingbackend.Enums.OperationType;
 import com.example.internetbankingbackend.SavingAccount.SavingAccountEntity;
+import com.example.internetbankingbackend.Security.AppRole.AppRole;
+import com.example.internetbankingbackend.Security.AppUser.AppUser;
+import com.example.internetbankingbackend.Security.SecurityService;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Date;
 import java.util.UUID;
@@ -68,7 +73,12 @@ public class InternetBankingBackendApplication {
         };
     }
     @Bean
-    CommandLineRunner commandLineRunner1(BankService bankService){
+    PasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(); /* Utilisée BCrypt pour le cryptage, BCrypte utilise
+        la date systeme pour le cryptage*/
+    }
+    @Bean
+    CommandLineRunner commandLineRunner1(BankService bankService, SecurityService securityService){
         return args -> {
             Stream.of("issam", "cochomber1", "cochomber2").forEach(name-> {
                 CustomerDto customer = new CustomerDto();
@@ -88,6 +98,19 @@ public class InternetBankingBackendApplication {
                     bankService.credit(credit);
                 }
             }
+            securityService.addNewUser(new AppUser(null,"ISSAM","1234",null));
+            securityService.addNewUser(new AppUser(null,"COCHAMBER1","1234",null));
+            securityService.addNewUser(new AppUser(null,"COCHAMBER2","1234",null));
+
+            securityService.addNewRole(new AppRole(null, "ADMIN"));
+            securityService.addNewRole(new AppRole(null, "USER"));
+            securityService.addNewRole(new AppRole(null, "PRODUCT_MANAGER"));
+
+            securityService.addRoleToUser("ISSAM", "ADMIN");
+            securityService.addRoleToUser("ISSAM", "USER");
+            securityService.addRoleToUser("COCHAMBER1", "USER");
+            securityService.addRoleToUser("COCHAMBER1", "PRODUCT_MANAGER");
+            securityService.addRoleToUser("COCHAMBER2", "USER");
         };
     }
     //@Bean
