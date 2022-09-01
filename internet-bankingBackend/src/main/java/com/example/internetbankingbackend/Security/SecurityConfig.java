@@ -2,7 +2,9 @@ package com.example.internetbankingbackend.Security;
 
 import com.example.internetbankingbackend.Security.AppUser.AppUser;
 import lombok.AllArgsConstructor;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,6 +15,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -61,6 +64,15 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.formLogin().disable();
         /*3- Activer Stateless*/
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-
+        /*4- Ajouter un filter d'authentification*/
+        http.addFilter(new JwtAuthenticationFilter(authenticationManagerBean()));
+        /*5- add le filter d'authorisation comme le premiere filter qui doit s'execute et de type
+        * UsernamePasswordAuthenticationFilter*/
+        http.addFilterBefore(new JwtAuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);
+    }
+    @Bean
+    @Override
+    public AuthenticationManager authenticationManagerBean() throws Exception {
+        return super.authenticationManagerBean();
     }
 }
